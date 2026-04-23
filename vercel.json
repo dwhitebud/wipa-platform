@@ -1,4 +1,7 @@
 {
-  "buildCommand": "npm install && npm run build",
-  "installCommand": "npm install --registry=https://registry.npmjs.org/"
+  "buildCommand": "npm run build",
+  "installCommand": "npm install",
+  "env": {
+    "NPM_CONFIG_REGISTRY": "https://registry.npmjs.org/"
+  }
 }
