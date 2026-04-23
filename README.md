@@ -1,36 +1,69 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# WIPA Platform
+
+The official platform for **WIPA (Wedding Industry Professionals Association)** — replacing AMO and Basecamp with a modern, bespoke solution.
+
+## Tech Stack
+
+- **Next.js 16** (App Router, Server Components, Server Actions)
+- **TypeScript** (strict mode)
+- **Supabase** (Postgres, Auth, RLS, Realtime, Storage)
+- **Stripe** (subscriptions, one-time payments, Customer Portal)
+- **Mux** (video hosting & streaming)
+- **TailwindCSS** + **shadcn/ui** + **Lucide** icons
 
 ## Getting Started
 
-First, run the development server:
+1. Copy `.env.local.example` to `.env.local` and fill in your keys
+2. Install dependencies and start the dev server:
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+3. Open [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+src/
+├── app/
+│   ├── (public)/          # Marketing site (homepage, chapters, membership, blog, contact)
+│   ├── (auth)/            # Login, register, forgot-password
+│   ├── (portal)/          # Member portal (dashboard, profile, directory, events, videos, payments)
+│   ├── (board)/           # Board collaboration tool (Basecamp replacement)
+│   ├── (chapter-admin)/   # Chapter leader dashboard
+│   ├── (national-admin)/  # National admin dashboard
+│   └── api/               # Webhooks (Stripe, Mux)
+├── components/
+│   ├── ui/                # shadcn/ui components
+│   ├── marketing/         # Header, footer
+│   └── portal/            # Sidebar, portal components
+├── lib/
+│   ├── supabase/          # Client, server, middleware helpers
+│   ├── stripe/            # Stripe config & helpers
+│   └── mux/               # Mux config
+├── types/                 # TypeScript types (database enums, Supabase generated)
+└── hooks/                 # Custom React hooks
+```
 
-## Learn More
+## Database
 
-To learn more about Next.js, take a look at the following resources:
+- **32 tables** with Row-Level Security (RLS)
+- **25 chapters** seeded (+ 1 in formation)
+- **3 membership plans** (Individual $350, Corporate $550, Emerging $275)
+- **4 storage buckets** (avatars, documents, event-images, board-files)
+- Granular RBAC: member → committee → chapter board → national board → staff
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Brand
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **Colors:** Black & white foundation with `#CFA744` gold accent
+- **Fonts:** Roboto (body), Raleway (display), Poppins (UI)
+- **Logo:** WIPA wordmark (retained from wipa.org)
 
-## Deploy on Vercel
+## Environment Variables
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+See `.env.local.example` for required keys:
+- Supabase URL + anon key + service role key
+- Stripe publishable + secret + webhook secret
+- Mux token ID + secret
